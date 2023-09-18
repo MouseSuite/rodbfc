@@ -39,7 +39,7 @@ This project is licensed under the GPL (V3) License - see the [LICENSE](LICENSE_
 Contributions are welcome! Please read our [Contribution Guidelines](CONTRIBUTING.md) for more information on how to get started.
 
 ## Issues and Support
-If you encounter any issues or need assistance, please create a [GitHub Issue](https://github.com/your-username/rodbfc/issues) in our repository.
+If you encounter any issues or need assistance, please create a [Jira Issue](https://bitbucket.org/brainsuite/rodbfc/jira) in our repository.
 
 ## Acknowledgments
 - This tool was developed by [Anand A Joshi] and [Ronald Salloum] in [2023].
