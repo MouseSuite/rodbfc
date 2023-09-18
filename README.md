@@ -9,7 +9,7 @@
 
 ## Installation
 To use **rodbfc.py**, you'll need to have Python 3 installed. Also please install `monai`, `pytorch`, and `nilearn` python libraries. 
-You can install the module by cloning this repository.
+You can install the module by cloning this repository. Pretrained models are available in models directory, named according to date and time when they were trained.
 
 
 ## Usage
