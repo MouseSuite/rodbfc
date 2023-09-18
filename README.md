@@ -28,6 +28,10 @@ rodbfc.py [-h] -i INPUT -m MODEL -o OUTPUT
 rodbfc.py -i input_image.nii.gz -m model_weights.pth -o output_image_corrected.nii.gz
 ```
 
+## Training the model
+A pretrained model is included in models directory. If you want to train a new model, you can use the ```main_training.ipynb``` notebook. 
+
+
 ## License
 This project is licensed under the GPL (V3) License - see the [LICENSE](LICENSE_GNU_v3.md) file for details.
 
