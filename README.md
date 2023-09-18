@@ -36,7 +36,7 @@ A pretrained model is included in models directory. If you want to train a new m
 This project is licensed under the GPL (V3) License - see the [LICENSE](LICENSE_GNU_v3.md) file for details.
 
 ## Contributing
-Contributions are welcome! Please read our [Contribution Guidelines](CONTRIBUTING.md) for more information on how to get started.
+Contributions are welcome! Please contact (ajoshi@usc.edu)[mailto:ajoshi@usc.edu] for further discussion.
 
 ## Issues and Support
 If you encounter any issues or need assistance, please create a [Jira Issue](https://bitbucket.org/brainsuite/rodbfc/jira) in our repository.
