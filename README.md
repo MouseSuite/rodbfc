@@ -29,7 +29,7 @@ rodbfc.py -i input_image.nii.gz -m model_weights.pth -o output_image_corrected.n
 ```
 
 ## License
-This project is licensed under the GPL (V3) License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GPL (V3) License - see the [LICENSE](LICENSE_GNU_v3.md) file for details.
 
 ## Contributing
 Contributions are welcome! Please read our [Contribution Guidelines](CONTRIBUTING.md) for more information on how to get started.
