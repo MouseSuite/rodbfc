@@ -29,13 +29,9 @@ rodbfc.py -i input_filename -m model_filename -o output_filename [-b bias_filena
 ```bash
 rodbfc.py -i input_image.nii.gz -m model_weights.pth -o output_image_corrected.nii.gz
 ```
-!rodbfc_pic.png (rodbfc)!
-![Alt text](rodbfc/rodbfc_pic.png "Optional title")
 
-
-!rodbfc_pic.png!
-{{rodbfc_pic.png}}
-![Alt text](rodbfc_pic.png "Optional title")
+Example output:
+![rodbfc](images/pic.png "example")
 
 
 ## Training the model
