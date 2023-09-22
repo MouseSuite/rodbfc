@@ -6,6 +6,8 @@
 *checkpoint*
 *.nii.gz
 
+*temp_folder*
+
 # Node artifact files
 node_modules/
 dist/
