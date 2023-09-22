@@ -29,6 +29,7 @@ rodbfc.py -i input_filename -m model_filename -o output_filename [-b bias_filena
 ```bash
 rodbfc.py -i input_image.nii.gz -m model_weights.pth -o output_image_corrected.nii.gz
 ```
+![Example rodbfc](https://bitbucket.org/brainsuite/rodbfc/src/master/rodbfc_pic.png "rodbfc")
 
 ## Training the model
 A pretrained model is included in models directory. If you want to train a new model, you can use the ```main_training.ipynb``` notebook. 
