@@ -14,14 +14,16 @@ You can install the module by cloning this repository. Pretrained models are ava
 
 ## Usage
 ```bash
-rodbfc.py [-h] -i INPUT -m MODEL -o OUTPUT
+rodbfc.py -i input_filename -m model_filename -o output_filename [-b bias_filename] [--device DEVICE]
 ```
 
 ### Arguments:
 - `-h, --help`: Show the help message and exit.
-- `-i INPUT, --input INPUT`: Path to the input MRI image file (in NIfTI format).
-- `-m MODEL, --model MODEL`: Path to the pre-trained bias field correction model.
-- `-o OUTPUT, --output OUTPUT`: Path to save the corrected output MRI image (in NIfTI format).
+- `-i` or `--input`: Input filename (Uncorrected MRI image filename).
+- `-m` or `--model`: Model file (Trained model .pth file).
+- -o` or `--output`: Output filename (Bias corrected MRI image filename).
+- -b` or `--bias`: Bias field filename (optional).
+- `--device`: Device to use for computation (default: "cuda" if available, else "cpu").
 
 ### Example:
 ```bash
