@@ -32,7 +32,7 @@ rodbfc.py -i input_image.nii.gz -m model_weights.pth -o output_image_corrected.n
 
 Example output:
 
-![rodbfc](images/pic.png "example"){width=10%}
+![rodbfc](images/pic2.png "example"){width=10%}
 
 
 ## Training the model
