@@ -32,6 +32,12 @@ rodbfc.py -i input_image.nii.gz -m model_weights.pth -o output_image_corrected.n
 !rodbfc_pic.png (rodbfc)!
 ![Alt text](rodbfc/rodbfc_pic.png "Optional title")
 
+
+!rodbfc_pic.png!
+{{rodbfc_pic.png}}
+![Alt text](rodbfc_pic.png "Optional title")
+
+
 ## Training the model
 A pretrained model is included in models directory. If you want to train a new model, you can use the ```main_training.ipynb``` notebook. 
 
