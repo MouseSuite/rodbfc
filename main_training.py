@@ -278,11 +278,7 @@ for epoch in range(num_epochs):
         # Save the trained model
         torch.save(model.state_dict(), filename)
 
-try:
-  import monai
-except:
-  !pip install monai pytorch-gpu nilearn
-  import monai
+import monai
 
 import numpy as np
 import nibabel as nib
