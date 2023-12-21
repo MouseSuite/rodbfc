@@ -71,6 +71,7 @@ def main():
         Resized(
                 keys,
                 spatial_size=(64, 64, 64),
+                mode='trilinear',
             ),
        # RandBiasField(prob=1, coeff_range=(0.2,0.3)),
         #ToTensor(),
@@ -104,7 +105,7 @@ def main():
     orig_shape = original_test_image.shape
     
     
-    estimated_bias_field_resized = Resize(spatial_size=orig_shape)(estimated_bias_field[None,])[0]
+    estimated_bias_field_resized = Resize(mode='trilinear', spatial_size=orig_shape)(estimated_bias_field[None,])[0]
 
     estimated_bias_field_resized = np.exp(estimated_bias_field_resized)
 
@@ -166,7 +167,8 @@ def main():
     projected_bias /= 3.0 
     
     # Apply the estimated bias field to correct the original image
-    corrected_image = original_test_image / projected_bias
+    #projected_bias = estimated_bias_field_resized
+    corrected_image = torch.tensor(original_test_image) / projected_bias
     
     input_nifti = nib.load(test_image_path)
     input_dtype = input_nifti.get_data_dtype()

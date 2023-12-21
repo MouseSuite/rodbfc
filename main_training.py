@@ -160,6 +160,7 @@ train_transforms = Compose([
     Resized(
             keys,
             spatial_size=(64, 64, 64),
+            mode='trilinear',
     ),
     RandBiasFieldd(keys,prob=0.5, coeff_range=(-1,1)),
 ])
@@ -172,6 +173,7 @@ val_transforms = Compose([
     Resized(
             keys,
             spatial_size=(64, 64, 64),
+            mode='trilinear',
     ),
 ])
 
@@ -320,6 +322,7 @@ test_transforms = Compose([
     Resized(
             keys,
             spatial_size=(64, 64, 64),
+            mode='trilinear',
         ),
    # RandBiasField(prob=1, coeff_range=(0.2,0.3)),
     #ToTensor(),
@@ -357,7 +360,7 @@ orig_shape = original_test_image.shape
 
 print(orig_shape)
 
-estimated_bias_field_resized = Resize(spatial_size=orig_shape)(estimated_bias_field[None,])[0]
+estimated_bias_field_resized = Resize(spatial_size=orig_shape, mode='trilinear')(estimated_bias_field[None,])[0]
 
 print(estimated_bias_field_resized.shape)
 # Apply the estimated bias field to correct the original image
