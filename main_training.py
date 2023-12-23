@@ -7,7 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1huelnaVEaK7LyZW1hJyGEQHc9jGJ_Uw8
 """
 
-import numpy
 import monai
 
 import glob
@@ -57,26 +56,6 @@ clear_output()
 import nibabel as nib
 import matplotlib.pyplot as plt
 from nilearn import plotting
-
-#from nilearn.plotting import plot_anat
-
-nifti_file1 = '/project/ajoshi_27/rodent_bfc_data4ML/data4ML2/eae14_08_20_uncorr.nii.gz'
-nifti_file2 = '/project/ajoshi_27/rodent_bfc_data4ML/data4ML2/eae14_08_20_corr.nii.gz'
-nifti_file3 = '/project/ajoshi_27/rodent_bfc_data4ML/data4ML2/eae14_08_20_bias.nii.gz'
-
-# Load the NIfTI file
-#nifti_img = nib.load(nifti_file)
-
-# Plot the image using nilearn
-#plotting.view_img(nifti_file1, bg_img=False, cmap='gray', colorbar=True, symmetric_cmap=False)
-
-plotting.plot_anat(nifti_file1, colorbar=True,vmax=2e4,black_bg='k',cut_coords=(5,13,6))
-
-plotting.plot_anat(nifti_file2, colorbar=True, vmax=2e4,cut_coords=(5,13,6))
-
-plotting.plot_anat(nifti_file3, colorbar=True, vmax=2,vmin=0,cut_coords=(5,16,6))
-plotting.plot_anat(nifti_file3, colorbar=True, vmax=2,vmin=0)
-
 import torch
 import monai
 from monai.networks.nets import UNet
@@ -229,8 +208,11 @@ optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 loss_function = MSELoss() # DiceLoss(sigmoid=True)
 
 # Training loop
-num_epochs = 10002
+num_epochs = 20002
 save_interval = 500
+
+train_loss_epoch = np.zeros(num_epochs)
+val_loss_epoch = np.zeros(num_epochs)
 
 for epoch in range(num_epochs):
     model.train()
@@ -250,7 +232,8 @@ for epoch in range(num_epochs):
 
         total_train_loss += loss.item()
 
-    print(f"Epoch {epoch+1}/{num_epochs}, Training Loss: {total_train_loss / len(train_loader)}")
+    print(f"Epoch {epoch+1}/{num_epochs}, Training Loss: {total_train_loss / len(train_files)}")
+    train_loss_epoch[epoch] = total_train_loss / len(train_files)
 
 
     # Validation loop
@@ -264,7 +247,8 @@ for epoch in range(num_epochs):
             loss = loss_function(outputs, biases)
             total_val_loss += loss.item()
 
-    print(f"Epoch {epoch+1}/{num_epochs}, Validation Loss: {total_val_loss / len(val_loader)}")
+    print(f"Epoch {epoch+1}/{num_epochs}, Validation Loss: {total_val_loss / len(val_files)}")
+    val_loss_epoch[epoch] = total_val_loss / len(val_files)
 
 
     if epoch % save_interval == 0:
@@ -279,4 +263,9 @@ for epoch in range(num_epochs):
 
         # Save the trained model
         torch.save(model.state_dict(), filename)
+        filename = f"models/bias_field_correction_loss_{formatted_datetime}_epoch_{epoch}.npz"
+
+        np.savez(filename,val_loss_epoch=val_loss_epoch,train_loss_epoch=train_loss_epoch)
+
+print('Training is done!')
 

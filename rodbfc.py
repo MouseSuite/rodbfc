@@ -11,7 +11,7 @@ from monai.losses import DiceLoss
 from torch.nn import MSELoss
 from monai.data import Dataset, DataLoader, partition_dataset
 
-from monai.transforms import Compose, LoadImaged, ToTensord,LoadImage,ToTensor,EnsureChannelFirstD,EnsureChannelFirstd, Resized, Resize, RandBiasFieldd
+from monai.transforms import Compose, ScaleIntensityd, LoadImaged, ToTensord,LoadImage,ToTensor,EnsureChannelFirstD,EnsureChannelFirstd, Resized, Resize, RandBiasFieldd
 from monai.utils import set_determinism
 from glob import glob
 import random
@@ -68,6 +68,9 @@ def main():
     test_transforms = Compose([
         LoadImaged(keys,image_only=True),
         EnsureChannelFirstd(keys),
+        ScaleIntensityd(keys="image", minv=0.0, maxv=1.0), 
+        # the Unet has instance normalization, so this scaling won't make any difference. 
+        # But we keep it for now in case we choose to change the network.    
         Resized(
                 keys,
                 spatial_size=(64, 64, 64),
@@ -94,6 +97,7 @@ def main():
 
     # Apply the trained model to estimate the bias field
     with torch.no_grad():
+        print(test_image.max(),test_image.min())
         estimated_bias_field = model(test_image[None,])
     
     # Convert the estimated bias field to a Numpy array
@@ -110,7 +114,7 @@ def main():
     estimated_bias_field_resized = np.exp(estimated_bias_field_resized)
 
     # Smooth the bias field using Legendre polynomials
-    order = 12
+    order = 32
 
     # Generate Legendre basis
 
