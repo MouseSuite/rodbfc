@@ -131,8 +131,10 @@ train_transforms = Compose([
     RandAffined(
             keys,
             prob=0.5,
-            rotate_range=(np.pi / 18, np.pi / 18, np.pi / 18),
-            translate_range=(5,5,5),
+            #rotate_range=(np.pi / 18, np.pi / 18, np.pi / 18),
+            rotate_range=(np.pi / 3, np.pi / 3, np.pi / 3),
+            #translate_range=(5,5,5),
+            translate_range=(30,30,30),
             scale_range=(0.3,0.3,0.3),shear_range=(.1,.1,.1,.1,.1,.1),
             padding_mode=("zeros","reflection"),
         ),
