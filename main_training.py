@@ -128,22 +128,23 @@ train_transforms = Compose([
     LoadImaged(keys,image_only=True),
     EnsureChannelFirstd(keys),
     ScaleIntensityd(keys="image", minv=0.0, maxv=1.0),
-    RandAffined(
-            keys,
-            prob=0.5,
-            #rotate_range=(np.pi / 18, np.pi / 18, np.pi / 18),
-            rotate_range=(np.pi / 3, np.pi / 3, np.pi / 3),
-            #translate_range=(5,5,5),
-            translate_range=(30,30,30),
-            scale_range=(0.3,0.3,0.3),shear_range=(.1,.1,.1,.1,.1,.1),
-            padding_mode=("zeros","reflection"),
-        ),
     Resized(
             keys,
             spatial_size=(64, 64, 64),
             mode='trilinear',
     ),
-    RandBiasFieldd(keys,prob=0.5, coeff_range=(-1,1)),
+    RandAffined(
+            keys,
+            prob=0.5,
+            #rotate_range=(np.pi / 18, np.pi / 18, np.pi / 18),
+            rotate_range=(np.pi / 6, np.pi / 6, np.pi / 6),
+            #translate_range=(5,5,5),
+            translate_range=(15,15,15),
+            scale_range=(0.3,0.3,0.3),
+            shear_range=(.1,.1,.1,.1,.1,.1),
+            padding_mode=("zeros","reflection"),
+        ),
+    RandBiasFieldd(keys,prob=0.5, coeff_range=(-1,1), degree=5),
 ])
 
 
@@ -201,7 +202,7 @@ model = UNet(
     spatial_dims=spatial_dims,
     in_channels=1,  # Adjust based on your data
     out_channels=1, # Adjust based on your data
-    channels=(2,8,8,16,32),#(16, 64, 64, 128, 256),
+    channels=(16, 64, 64, 128, 256),#(2,8,8,16,32),#(16, 64, 64, 128, 256),
     strides=strides,
 ).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
