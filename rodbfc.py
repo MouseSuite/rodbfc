@@ -58,7 +58,7 @@ def main():
         spatial_dims=spatial_dims,
         in_channels=1,  # Adjust based on your data
         out_channels=1, # Adjust based on your data
-        channels=(2,8,8,16,32),#(16, 64, 64, 128, 256)/8,
+        channels=(16, 64, 64, 128, 256),#(2,8,8,16,32),#(16, 64, 64, 128, 256),
         strides=strides,
     ).to(device)
 

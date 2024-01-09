@@ -27,8 +27,8 @@ for f in uncorr_files:
   uncorr_file = sub_name + '_uncorr.nii.gz'
   output_file = sub_name + '_bias.nii.gz'
 
-  #if isfile(output_file):
-  #  continue
+  if isfile(output_file):
+      continue
 
   print(sub_name)
 
@@ -92,6 +92,12 @@ class BiasFieldCorrectionDataset(Dataset):
 
 image_files = (glob('/project/ajoshi_27/rodent_bfc_data4ML/data4ML2/*uncorr.nii.gz'))
 bias_files = (glob('/project/ajoshi_27/rodent_bfc_data4ML/data4ML2/*bias.nii.gz'))
+
+
+print('*********************')
+print(image_files)
+print(bias_files)
+print('*********************')
 
 # Define transformations
 #transforms = Compose([LoadImaged(keys=['image', 'bias'],image_only=True), AddChanneld(keys=['image', 'bias']), ToTensord(keys=['image', 'bias'])])
