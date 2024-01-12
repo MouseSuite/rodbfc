@@ -1,5 +1,3 @@
-
-
 import glob
 import nibabel as nib
 import numpy as np
@@ -42,7 +40,7 @@ def main():
 def main_training_modularized_param(channels, augmentation, lr, num_epochs, save_interval):
 
     folder_name = f"channels_{channels}_aug_{augmentation}_lr_{lr}"
-    directory_path = os.path.join('models', folder_name)
+    directory_path = os.path.join('/project/ajoshi_27/code_farm/rodbfc/models', folder_name)
     if not os.path.exists(directory_path):
         os.makedirs(directory_path)
     else:
@@ -54,10 +52,14 @@ def main_training_modularized_param(channels, augmentation, lr, num_epochs, save
 
     # File paths
     uncorr_files = glob.glob('/project/ajoshi_27/rodent_bfc_data4ML/data4ML2/*uncorr.nii.gz')
-    # calculate_and_save_ratio(uncorr_files)
+    #calculate_and_save_ratio(uncorr_files)
 
-    image_files = glob.glob('/project/ajoshi_27/rodent_bfc_data4ML/data4ML2/*uncorr.nii.gz')
-    bias_files = glob.glob('/project/ajoshi_27/rodent_bfc_data4ML/data4ML2/*bias.nii.gz')
+    image_files = uncorr_files
+    bias_files = []
+    for f in uncorr_files:
+        sub_name = f[:-14]
+        bias_files.append(sub_name + '_bias.nii.gz')
+
 
     # Define transformations based on augmentation
     train_transforms = get_train_transforms(augmentation)
@@ -75,7 +77,7 @@ def get_train_transforms(augmentation):
         LoadImaged(keys, image_only=True),
         EnsureChannelFirstd(keys),
         ScaleIntensityd(keys="image", minv=0.0, maxv=1.0),
-        Resized(keys, spatial_size=(64, 64, 64), mode='trilinear'),
+        Resized(keys, spatial_size=(64, 64, 64), mode='trilinear'),    
     ]
 
     if augmentation:
