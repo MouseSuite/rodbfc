@@ -39,7 +39,7 @@ python main_training_modularized_param.py --channels {channels} --augmentation {
 
 # Define your parameter combinations
 channels_list = ["16,64,64,128,256", "2,8,8,16,32"]
-augmentation_list = [True, False]
+augmentation_list = ["True", "False"]
 lr_list = [1e-3, 1e-4]
 num_epochs_list = [20002]
 save_interval_list = [500]

@@ -16,7 +16,7 @@ import argparse
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Train the model with different parameter combinations.")
     parser.add_argument('--channels', type=str, default="16,64,64,128,256", help='List of channels for the UNet model separated by commas.')
-    parser.add_argument('--augmentation', type=bool, default=True, help='Whether to use data augmentation.')
+    parser.add_argument('--augmentation', type=str, default="True", help='Whether to use data augmentation.')
     parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate for training.')
     parser.add_argument('--num_epochs', type=int, default=20002, help='Number of epochs for training.')
     parser.add_argument('--save_interval', type=int, default=500, help='Interval for saving model and loss data.')
@@ -38,6 +38,13 @@ def main():
 
 
 def main_training_modularized_param(channels, augmentation, lr, num_epochs, save_interval):
+
+    if augmentation == "True":
+        augmentation = True
+    else:
+        augmentation = False
+    
+    print(augmentation, type(augmentation))
 
     folder_name = f"channels_{channels}_aug_{augmentation}_lr_{lr}"
     directory_path = os.path.join('/project/ajoshi_27/code_farm/rodbfc/models', folder_name)
