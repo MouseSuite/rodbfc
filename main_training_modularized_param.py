@@ -39,12 +39,10 @@ def main():
 
 def main_training_modularized_param(channels, augmentation, lr, num_epochs, save_interval):
 
-    if augmentation == "True":
+    if(augmentation == "True"):
         augmentation = True
     else:
         augmentation = False
-    
-    print(augmentation, type(augmentation))
 
     folder_name = f"channels_{channels}_aug_{augmentation}_lr_{lr}"
     directory_path = os.path.join('/project/ajoshi_27/code_farm/rodbfc/models', folder_name)
@@ -155,8 +153,12 @@ def train_model(train_loader, val_loader, channels,lr, num_epochs, save_interval
                 loss = loss_function(outputs, biases)
                 total_val_loss += loss.item()
 
-        print(f"Epoch {epoch+1}/{num_epochs}, Training Loss: {total_train_loss / len(train_loader)}")
-        print(f"Epoch {epoch+1}/{num_epochs}, Validation Loss: {total_val_loss / len(val_loader)}")
+
+        print(f"Epoch {epoch+1}/{num_epochs}, Training Loss: {total_train_loss / len(train_loader.dataset)}")
+        train_loss_epoch[epoch] = total_train_loss / len(train_loader.dataset)
+        print(f"Epoch {epoch+1}/{num_epochs}, Validation Loss: {total_val_loss / len(val_loader.dataset)}")
+        val_loss_epoch[epoch] = total_val_loss / len(val_loader.dataset)
+
 
         # Saving model and loss data
         if epoch % save_interval == 0:
