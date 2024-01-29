@@ -30,9 +30,7 @@ def main():
     parser.add_argument("-o", "--output", help="Output filename (Bias corrected MRI image filename)", required=True)
     parser.add_argument("-b", "--bias", help="Bias field filename", required=False)
     parser.add_argument("--device", choices=["cpu", "cuda"], default="cuda" if torch.cuda.is_available() else "cpu",
-                        help="Device to use for computation (default: cuda if available, else cpu)")
-    
-    
+                        help="Device to use for computation (default: cuda if available, else cpu)")    
     args = parser.parse_args()
     
     input_filename = args.input
@@ -54,11 +52,14 @@ def main():
     spatial_dims = 3
     strides = (1, 1, 1, 1)
     
+    last_subdirectory = model_filename.split('/')[-2]
+    channels = tuple(map(int, last_subdirectory.split('_')[1][1:-1].split(',')))
+
     model = UNet(
         spatial_dims=spatial_dims,
         in_channels=1,  # Adjust based on your data
         out_channels=1, # Adjust based on your data
-        channels=(16, 64, 64, 128, 256),#(2,8,8,16,32),#(16, 64, 64, 128, 256),
+        channels=channels,#(16, 64, 64, 128, 256),#(2,8,8,16,32),#(16, 64, 64, 128, 256),
         strides=strides,
     ).to(device)
 
