@@ -45,9 +45,6 @@ This project is licensed under the GPL (V2) License - see the [LICENSE](License_
 ## Contributing
 Contributions are welcome! Please contact [ajoshi@usc.edu](mailto:ajoshi@usc.edu) for further discussion.
 
-## Issues and Support
-If you encounter any issues or need assistance, please create a [Jira Issue](https://bitbucket.org/brainsuite/rodbfc/jira) in our repository.
-
 ## Acknowledgments
 - This tool was developed by [Anand A Joshi](ajoshi@usc.edu) and [Ronald Salloum](rsalloum@usc.edu). This project is supported by NIH Grant R01-NS121761 (PIs: David Shattuck and Allan MacKenzie-Graham).
 
