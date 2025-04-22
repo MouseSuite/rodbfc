@@ -40,13 +40,10 @@ A pretrained model is included in models directory. If you want to train a new m
 
 
 ## License
-This project is licensed under the GPL (V3) License - see the [LICENSE](LICENSE_GNU_v3.md) file for details.
+This project is licensed under the GPL (V2) License - see the [LICENSE](License_gpl-2.0.txt) file for details.
 
 ## Contributing
 Contributions are welcome! Please contact [ajoshi@usc.edu](mailto:ajoshi@usc.edu) for further discussion.
-
-## Issues and Support
-If you encounter any issues or need assistance, please create a [Jira Issue](https://bitbucket.org/brainsuite/rodbfc/jira) in our repository.
 
 ## Acknowledgments
 - This tool was developed by [Anand A Joshi](ajoshi@usc.edu) and [Ronald Salloum](rsalloum@usc.edu). This project is supported by NIH Grant R01-NS121761 (PIs: David Shattuck and Allan MacKenzie-Graham).
