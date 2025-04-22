@@ -11,7 +11,7 @@ import nibabel as nib
 import matplotlib.pyplot as plt
 from nilearn import plotting
 import torch
-import monaiq
+import monai
 from monai.networks.nets import UNet
 from monai.losses import DiceLoss
 from torch.nn import MSELoss
