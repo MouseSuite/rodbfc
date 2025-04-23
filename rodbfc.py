@@ -53,7 +53,8 @@ def main():
     strides = (1, 1, 1, 1)
     
     last_subdirectory = model_filename.split('/')[-2]
-    channels = tuple(map(int, last_subdirectory.split('_')[1][1:-1].split(',')))
+    #channels = tuple(map(int, last_subdirectory.split('_')[1][1:-1].split(',')))
+    channels = (16, 64, 64, 128, 256)
 
     model = UNet(
         spatial_dims=spatial_dims,
