@@ -50,7 +50,7 @@ class BiasFieldCorrectionDataset(Dataset):
 
 
 
-data_dir = '/deneb_disk/rodent_bfc_data4ML/data4ML2025'
+data_dir = '/home/ajoshi/project_ajoshi_27/rodent_bfc_data4ML/data4ML2025'
 
 if not os.path.isdir(data_dir):
     data_dir = '/project/ajoshi_27/rodent_bfc_data4ML/data4ML2025'
