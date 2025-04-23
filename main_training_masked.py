@@ -223,9 +223,10 @@ for epoch in range(num_epochs):
         outputs = model(inputs)
 
         # define masks as wheren inputs are not zero
-        masks = torch.where(inputs != 0, 1, 0).float()
+        #masks = torch.where(inputs != 0, 1, 0).float()
 
-        loss = loss_function(outputs*masks, biases*masks)
+        loss = loss_function(outputs, biases)
+        #loss = loss_function(outputs*masks, biases*masks)
 
         loss.backward()
         optimizer.step()
