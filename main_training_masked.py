@@ -71,7 +71,7 @@ for i in range(len(image_files)):
 # make a list of bias files
 bias_files = []
 for i in range(len(subids)):
-    bias_file = glob('/deneb_disk/rodent_bfc_data4ML/data4ML2025/' + subids[i] + '*bias.nii.gz')
+    bias_file = glob(f'{data_dir}/' + subids[i] + '*bias.nii.gz')
     if len(bias_file) == 1:
         bias_files.append(bias_file[0])
     else:
