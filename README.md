@@ -30,7 +30,7 @@ rodbfc.py -i input_filename -m model_filename -o output_filename [-b bias_filena
 rodbfc.py -i input_image.nii.gz -m model_weights.pth -o output_image_corrected.nii.gz
 ```
 ### Models
-Currently, we provide two models in the ```models``` directory. One is for skullstripped data, and the other (with 'masked' in the filename) is for skullstripped data. Please make sure to use appropriate model for skullstripped vs non-skullstripped data.
+Currently, we provide two models in the ```models``` directory. One is for data without skullstripping, and the other (with 'masked' in the filename) is for skullstripped data. Please make sure to use appropriate model for skullstripped vs non-skullstripped data.
 
 
 Example output:
