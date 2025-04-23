@@ -116,7 +116,7 @@ def main():
     estimated_bias_field_resized = np.exp(estimated_bias_field_resized)
 
     # Smooth the bias field using Legendre polynomials
-    order = 32
+    order = 8
 
     # Generate Legendre basis
 
