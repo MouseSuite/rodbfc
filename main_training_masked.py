@@ -46,15 +46,42 @@ class BiasFieldCorrectionDataset(Dataset):
 #image_files = ['image1.nii.gz', 'image2.nii.gz']
 #bias_files = ['bias_field1.nii.gz', 'bias_field2.nii.gz']
 
-image_files = (glob('/deneb_disk/rodent_bfc_data4ML/data4ML2025/*uncorr.nii.gz'))
-bias_files = (glob('/deneb_disk/rodent_bfc_data4ML/data4ML2025//*bias.nii.gz'))
-mask_files = (glob('/deneb_disk/rodent_bfc_data4ML/data4ML2025//*mask.nii.gz'))
+
+
+
+data_dir = '/deneb_disk/rodent_bfc_data4ML/data4ML2025'
+
+if not os.path.isdir(data_dir):
+    data_dir = '/project/ajoshi_27/rodent_bfc_data4ML/data4ML2025'
+ 
+
+image_files = (glob(f'{data_dir}/*.bse.nii.gz'))
+#bias_files = (glob('/deneb_disk/rodent_bfc_data4ML/data4ML2025//*bias.nii.gz'))
+#mask_files = (glob('/deneb_disk/rodent_bfc_data4ML/data4ML2025//*mask.nii.gz'))
+
+# make a list of subids
+subids = []
+for i in range(len(image_files)):
+    subid = image_files[i].split('/')[-1].split('.')[0]
+    subids.append(subid)
+# remove duplicates
+#subids = list(set(subids))
+
+# make a list of bias files
+bias_files = []
+for i in range(len(subids)):
+    bias_file = glob('/deneb_disk/rodent_bfc_data4ML/data4ML2025/' + subids[i] + '*bias.nii.gz')
+    if len(bias_file) == 1:
+        bias_files.append(bias_file[0])
+    else:
+        print('incorrect number of bias files for subid:', subids[i])
+        bias_files.append(None)
+
 
 
 print('*********************')
 print(image_files)
 print(bias_files)
-print(mask_files)
 print('*********************')
 
 # Define transformations
@@ -62,7 +89,7 @@ print('*********************')
 #transforms = Compose([LoadImage(image_only=True), Resize(), EnsureChannelFirst(), ToTensor()])
 
 
-data_dicts = [{"image": image, "bias": bias, "mask": mask} for image, bias, mask in zip(image_files, bias_files, mask_files)]
+data_dicts = [{"image": image, "bias": bias} for image, bias in zip(image_files, bias_files)]
 
 random.seed(11)
 
@@ -84,9 +111,9 @@ from monai.data import (
     TestTimeAugmentation,
 )
 
-device = "cpu" #torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-keys = ["image", "bias", "mask"]
+keys = ["image", "bias"]
 
 train_transforms = Compose([
     LoadImaged(keys,image_only=True),
@@ -95,7 +122,7 @@ train_transforms = Compose([
     Resized(
             keys,
             spatial_size=(64, 64, 64),
-            mode=('trilinear','trilinear','nearest'),
+            mode=('trilinear','trilinear'),
     ),
     RandAffined(
             keys,
@@ -106,7 +133,7 @@ train_transforms = Compose([
             translate_range=(15,15,15),
             scale_range=(0.3,0.3,0.3),
             shear_range=(.1,.1,.1,.1,.1,.1),
-            padding_mode=("zeros","reflection",'zeros'),
+            padding_mode=("zeros","reflection"),
         ),
     RandBiasFieldd(keys,prob=0.5, coeff_range=(-1,1), degree=5),
 ])
@@ -119,7 +146,7 @@ val_transforms = Compose([
     Resized(
             keys,
             spatial_size=(64, 64, 64),
-            mode=('trilinear','trilinear','nearest'),
+            mode=('trilinear','trilinear'),
     ),
 ])
 
@@ -133,10 +160,10 @@ batch = next(iter(train_loader))
 i=0
 for batch in train_loader:
     i += 1
-    if i>20:
+    if i>4:
         break
 
-    for j in range(4):
+    for j in range(2):
         print(j)
         plt.subplot(121)
         plt.imshow(batch['image'][j,0,:,32,:],cmap='gray',vmin=0,vmax=1)
@@ -174,6 +201,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 # Define the Dice loss
 loss_function = MSELoss() # DiceLoss(sigmoid=True)
 
+
 # Training loop
 num_epochs = 20002
 save_interval = 500
@@ -187,11 +215,15 @@ for epoch in range(num_epochs):
 
     for batch in train_loader:
 
-        inputs, biases, masks = batch['image'].to(device), torch.log(batch['bias']).to(device), batch['mask'].to(device)
+        inputs, biases = batch['image'].to(device), torch.log(batch['bias']).to(device)
 
         optimizer.zero_grad()
 
         outputs = model(inputs)
+
+        # define masks as wheren inputs are not zero
+        masks = torch.where(inputs != 0, 1, 0).float()
+
         loss = loss_function(outputs*masks, biases*masks)
 
         loss.backward()
@@ -209,8 +241,12 @@ for epoch in range(num_epochs):
 
     with torch.no_grad():
         for batch in val_loader:
-            inputs, biases, masks = batch['image'].to(device), torch.log(batch['bias']).to(device), batch['mask'].to(device)
+            inputs, biases = batch['image'].to(device), torch.log(batch['bias']).to(device)
             outputs = model(inputs)
+
+            # define masks as wheren inputs are not zero
+            masks = torch.where(inputs != 0, 1, 0).float()
+
             loss = loss_function(outputs*masks, biases*masks)
             total_val_loss += loss.item()
 
